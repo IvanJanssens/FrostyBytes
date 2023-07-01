@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -50,16 +50,16 @@ class FridgeProjector {
     }
 
     @QueryHandler
-    Mono<QueryModels.Fridge> fetch(@NotNull UUID id) {
-        return fridgeRepository.findById(id)
-                .switchIfEmpty(Mono.error(new EntityNotFound(id, FridgeEntity.class)))
+    Mono<QueryModels.Fridge> fetch(@NotNull QueryModels.GetFridgeQuery query) {
+        return fridgeRepository.findById(query.id())
+                .switchIfEmpty(Mono.error(new EntityNotFound(query.id(), FridgeEntity.class)))
                 .map(fridgeMapper::toModel);
 
     }
 
     @QueryHandler
-    public Flux<FridgeEntity> getAllFridges(Integer page, Integer size) {
-        Pageable pageable = PageRequest.of(page, size);
+    public Flux<FridgeEntity> getAllFridges(QueryModels.GetAllFridgesQuery query) {
+        Pageable pageable = PageRequest.of(query.page(), query.size());
         return fridgeRepository.findAllBy(pageable);
     }
 }

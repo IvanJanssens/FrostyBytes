@@ -8,6 +8,9 @@ spring:
       host: localhost
       port: 27017
       database: frostyBytes
+      username: admin
+      password: secret
+      authentication-database: admin
   jackson:
     serialization:
       fail-on-empty-beans: false
