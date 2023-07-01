@@ -26,11 +26,3 @@ axon:
     general: jackson
     events: jackson
     messages: jackson
-logging:
-  level:
-    io.r2dbc.postgresql.QUERY: ${SQL_LOGGING:INFO}
-    io.r2dbc.postgresql.PARAM: ${SQL_PARAM:INFO}
-
-
-
-
