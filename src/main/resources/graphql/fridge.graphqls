@@ -18,11 +18,12 @@ type Subscription {
 }
 
 type Mutation {
-    createFridge(name: String!): Fridge
-    updateFridge(id: String!, name: String!): Fridge
-    deleteFridge(id: String!): Boolean
+    createFridge(name: String!): ID!
+    deleteFridge(id: String!): ID!
+    updateFridge(id: String!, name: String!): ID!
 
     addItemToFridge(fridgeId: String!, name: String!, categoryId: ID!, expirationDate: String!, placedAt: String!): Fridge
     updateItemInFridge(fridgeId: String!, itemId: ID!, name: String, categoryId: ID, expirationDate: String, placedAt: String): Fridge
     deleteItemFromFridge(fridgeId: String!, itemId: ID!): Fridge
-}
+
+    }

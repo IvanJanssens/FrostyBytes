@@ -12,14 +12,16 @@ import java.util.List;
 import java.util.UUID;
 
 public record QueryModels() {
+    public record GetAllFridgesQuery(int page, int size) {
+    }
+    public record GetFridgeQuery(UUID id) {
+    }
 
     public record Fridge(
             @NotNull
             UUID id,
             @NotBlank
-            String name,
-            @NotEmpty
-            List<Items> items
+            String name
     ) {
     }
 
