@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 public record EventModels() {
-    public record CategoryCreatedEvent(
+    public record CategoryAddedEvent(
             @NotNull UUID id,
             @NotBlank String name,
             @NotBlank String icon

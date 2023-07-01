@@ -26,7 +26,7 @@ public class CategoryAggregate {
             CategoryAggregateMapper mapper
     ) {
 
-        EventModels.CategoryCreatedEvent event = mapper.toEvent(command);
+        EventModels.CategoryAddedEvent event = mapper.toEvent(command);
         AggregateLifecycle.apply(event);
     }
 
@@ -51,7 +51,7 @@ public class CategoryAggregate {
     }
 
     @EventSourcingHandler
-    private void on(EventModels.CategoryCreatedEvent event) {
+    private void on(EventModels.CategoryAddedEvent event) {
         this.id = event.id();
     }
 }
