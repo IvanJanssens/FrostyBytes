@@ -62,7 +62,7 @@ public class CategoryController {
     public Flux<QueryModels.Category> getCategories(
             DataFetchingEnvironment environment
     ) {
-        return queryGateway.subscriptionQuery(
+        return queryGateway.subscriptionQueryMany(
                 new QueryModels.GetCategoriesQuery(),
                 QueryModels.Category.class
         );
