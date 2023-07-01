@@ -7,8 +7,10 @@ import com.lina.frostybytes.utils.LogUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.queryhandling.QueryHandler;
 import org.axonframework.queryhandling.QueryUpdateEmitter;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Slf4j
@@ -61,5 +63,10 @@ public class CategoryProjector {
                 query -> query.id().equals(event.id()),
                 category
         );
+    }
+
+    @QueryHandler
+    public Flux<QueryModels.Category> getAllFridges(QueryModels.GetCategoriesQuery query) {
+        return repo.findAll().map(mapper::toModel);
     }
 }
