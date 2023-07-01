@@ -17,6 +17,8 @@
         <java.version>17</java.version>
         <axon.version>4.7.5</axon.version>
         <axon-reactor.version>4.5.1</axon-reactor.version>
+        <graphql.spring.starter.version>15.0.0</graphql.spring.starter.version>
+        <graphiql.spring.starter.version>11.1.0</graphiql.spring.starter.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombok-mapstruct.version>0.2.0</lombok-mapstruct.version>
     </properties>
@@ -34,6 +36,23 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-graphql</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.graphql-java-kickstart</groupId>
+            <artifactId>graphql-spring-boot-starter</artifactId>
+            <version>${graphql.spring.starter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.graphql-java-kickstart</groupId>
+            <artifactId>graphiql-spring-boot-starter</artifactId>
+            <version>${graphiql.spring.starter.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>

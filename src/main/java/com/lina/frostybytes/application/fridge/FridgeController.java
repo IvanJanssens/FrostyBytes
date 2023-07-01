@@ -1,23 +1,21 @@
 package com.lina.frostybytes.application.fridge;
 
+import com.lina.frostybytes.core_api.fridge.CommandModels;
 import com.lina.frostybytes.core_api.fridge.QueryModels;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway;
-import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.BatchMapping;
-import org.springframework.graphql.data.method.annotation.MutationMapping;
-import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.axonframework.extensions.reactor.queryhandling.gateway.ReactorQueryGateway;
+import org.axonframework.messaging.responsetypes.ResponseTypes;
+import org.springframework.graphql.data.method.annotation.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
-import graphql.schema.DataFetchingEnvironment;
-
-import java.util.List;
+import java.util.UUID;
+import java.util.function.Function;
 
 @Controller
 @RequestMapping("/graphql")
@@ -26,22 +24,45 @@ import java.util.List;
 public class FridgeController {
 
     private final ReactorCommandGateway commandGateway;
+    private final ReactorQueryGateway reactorQueryGateway;
+
+
 
     @MutationMapping
-    public Mono<QueryModels.Fridge> createFridge(@Argument String name) {
-        return Mono.empty();
+    public Mono<UUID> createFridge(@Argument @NotBlank String name) {
+        UUID newId = UUID.randomUUID();
+        return commandGateway.send(new CommandModels.CreateFridgeCommand(newId, name))
+                .thenReturn(newId);
     }
 
-//
-//    @MutationMapping
-//    public Mono<Fridge> updateFridge(@Argument String id, @Argument String name) {
-//        return fridgeService.updateFridge(id, name);
-//    }
-//
-//    @MutationMapping
-//    public Mono<Boolean> deleteFridge(@Argument String id) {
-//        return fridgeService.deleteFridge(id);
-//    }
+
+    @MutationMapping
+    public Mono<UUID> updateFridge(@Argument @NotNull UUID id,
+                                   @Argument @NotBlank String name) {
+        return commandGateway.send(new CommandModels.UpdateFridgeCommand(id, name))
+                .thenReturn(id);
+    }
+
+    @MutationMapping
+    public Mono<UUID> deleteFridge(@Argument @NotNull UUID id) {
+        return commandGateway.send(new CommandModels.DeleteFridgeCommand(id))
+                .thenReturn(id);
+    }
+
+    @SubscriptionMapping
+    public Flux<QueryModels.Fridge> getFridges(int page, int pageSize) {
+        return reactorQueryGateway.subscriptionQuery(new QueryModels.GetAllFridgesQuery(page, pageSize),
+                        ResponseTypes.multipleInstancesOf(QueryModels.Fridge.class))
+                .flatMapIterable(Function.identity());
+    }
+
+    @SubscriptionMapping
+    public Mono<QueryModels.Fridge> getFridge(UUID id) {
+        return reactorQueryGateway.subscriptionQuery(new QueryModels.GetFridgeQuery(id),
+                        ResponseTypes.instanceOf(QueryModels.Fridge.class))
+                .next();
+
+    }
 //
 //    @MutationMapping
 //    public Mono<Fridge> addItemToFridge(@Argument String fridgeId,
