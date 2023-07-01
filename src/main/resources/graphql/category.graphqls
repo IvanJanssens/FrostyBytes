@@ -1,0 +1,15 @@
+type Category {
+    id: ID!
+    name: String!
+    icon: String!
+}
+
+extend type Query {
+    getCategories:[Category]!
+}
+
+extend type Mutation {
+    addCategory(fridgeId: String!, name: String!, categoryId: ID!, expirationDate: String!, placedAt: String!): Fridge
+    updateCategory(fridgeId: String!, itemId: ID!, name: String, categoryId: ID, expirationDate: String, placedAt: String): Fridge
+    deleteCategory(fridgeId: String!, itemId: ID!): Fridge
+}

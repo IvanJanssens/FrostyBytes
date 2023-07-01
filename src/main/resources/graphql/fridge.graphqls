@@ -12,16 +12,9 @@ type Items {
     placedAt: String!
 }
 
-type Category {
-    id: ID!
-    name: String!
-    icon: String!
-}
-
 type Query {
     getFridge(id: String!): Fridge
     getFridges(page: Int!, pageSize: Int!): [Fridge!]!
-    getCategories:[Category]!
 }
 
 type Mutation {
@@ -32,8 +25,4 @@ type Mutation {
     addItemToFridge(fridgeId: String!, name: String!, categoryId: ID!, expirationDate: String!, placedAt: String!): Fridge
     updateItemInFridge(fridgeId: String!, itemId: ID!, name: String, categoryId: ID, expirationDate: String, placedAt: String): Fridge
     deleteItemFromFridge(fridgeId: String!, itemId: ID!): Fridge
-
-    addCategory(fridgeId: String!, name: String!, categoryId: ID!, expirationDate: String!, placedAt: String!): Fridge
-    updateCategory(fridgeId: String!, itemId: ID!, name: String, categoryId: ID, expirationDate: String, placedAt: String): Fridge
-    deleteCategory(fridgeId: String!, itemId: ID!): Fridge
 }
