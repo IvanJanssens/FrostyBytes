@@ -4,27 +4,25 @@ import com.lina.frostybytes.core_api.fridge.EventModels;
 import com.lina.frostybytes.core_api.fridge.QueryModels;
 import com.lina.frostybytes.core_api.shared.EntityNotFound;
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.queryhandling.QueryHandler;
 import org.axonframework.queryhandling.QueryUpdateEmitter;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
+@Service
+@RequiredArgsConstructor
 class FridgeProjector {
 
     private final FridgeRepository fridgeRepository;
     private final FridgeMapper fridgeMapper;
     private final QueryUpdateEmitter queryUpdateEmitter;
-
-    FridgeProjector(FridgeRepository fridgeRepository, FridgeMapper fridgeMapper, QueryUpdateEmitter queryUpdateEmitter) {
-        this.fridgeRepository = fridgeRepository;
-        this.fridgeMapper = fridgeMapper;
-        this.queryUpdateEmitter = queryUpdateEmitter;
-    }
 
     @EventHandler
     public void create(EventModels.FridgeCreatedEvent event) {
@@ -60,7 +58,7 @@ class FridgeProjector {
     }
 
     @QueryHandler
-    public Flux<FridgeEntity> getAllFridges(int page, int size) {
+    public Flux<FridgeEntity> getAllFridges(Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
         return fridgeRepository.findAllBy(pageable);
     }

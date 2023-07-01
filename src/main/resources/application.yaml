@@ -1,0 +1,33 @@
+server:
+  port: ${SERVER_PORT:8080}
+spring:
+  application:
+    name: frostyBytes
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: frostyBytes
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+  graphql:
+    graphiql:
+      enabled: true
+      path: '/graphiql'
+axon:
+  axonserver:
+    ssl-enabled: ${AXON_AXONSERVER_SSL-ENABLED:false}
+    servers: ${AXON_AXONSERVER_SERVERS:localhost}
+  serializer:
+    general: jackson
+    events: jackson
+    messages: jackson
+logging:
+  level:
+    io.r2dbc.postgresql.QUERY: ${SQL_LOGGING:INFO}
+    io.r2dbc.postgresql.PARAM: ${SQL_PARAM:INFO}
+
+
+
+
