@@ -19,6 +19,8 @@ spring:
     graphiql:
       enabled: true
       path: '/graphiql'
+    websocket:
+      path: '/graphql'
 axon:
   axonserver:
     ssl-enabled: ${AXON_AXONSERVER_SSL-ENABLED:false}
