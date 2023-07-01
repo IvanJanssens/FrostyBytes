@@ -1,0 +1,38 @@
+type Fridge {
+    id: String!
+    name: String!
+    items:[Items]!
+}
+
+type Items {
+    id: ID!
+    name: String!
+    category: Category!
+    expirationDate: String!
+    placedAt: String!
+}
+
+type Category {
+    id: ID!
+    name: String!
+    icon: String!
+}
+
+type Query {
+    getFridge(id: String!): Fridge
+    getAllFridges(page: Int!, pageSize: Int!): [Fridge!]!
+}
+
+type Mutation {
+    createFridge(name: String!): Fridge
+    updateFridge(id: String!, name: String!): Fridge
+    deleteFridge(id: String!): Boolean
+
+    addItemToFridge(fridgeId: String!, name: String!, categoryId: ID!, expirationDate: String!, placedAt: String!): Fridge
+    updateItemInFridge(fridgeId: String!, itemId: ID!, name: String, categoryId: ID, expirationDate: String, placedAt: String): Fridge
+    deleteItemFromFridge(fridgeId: String!, itemId: ID!): Fridge
+
+    addCategory(fridgeId: String!, name: String!, categoryId: ID!, expirationDate: String!, placedAt: String!): Fridge
+    updateCategory(fridgeId: String!, itemId: ID!, name: String, categoryId: ID, expirationDate: String, placedAt: String): Fridge
+    deleteCategory(fridgeId: String!, itemId: ID!): Fridge
+}
