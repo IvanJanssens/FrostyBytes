@@ -12,7 +12,7 @@ type Items {
     placedAt: String!
 }
 
-type Query {
+type Subscription {
     getFridge(id: String!): Fridge
     getFridges(page: Int!, pageSize: Int!): [Fridge!]!
 }

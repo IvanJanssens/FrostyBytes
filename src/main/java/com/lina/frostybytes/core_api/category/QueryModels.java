@@ -11,6 +11,11 @@ import java.util.List;
 import java.util.UUID;
 
 public record QueryModels() {
+
+    public record FetchCategoriesQuery() {}
+
+    public record FetchCategoryQuery(UUID id) {}
+
     public record Category(
             @NotNull
             UUID id,

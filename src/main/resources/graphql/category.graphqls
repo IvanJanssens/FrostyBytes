@@ -4,12 +4,12 @@ type Category {
     icon: String!
 }
 
-extend type Query {
+extend type Subscription {
     getCategories:[Category]!
 }
 
 extend type Mutation {
-    addCategory(fridgeId: String!, name: String!, categoryId: ID!, expirationDate: String!, placedAt: String!): Fridge
-    updateCategory(fridgeId: String!, itemId: ID!, name: String, categoryId: ID, expirationDate: String, placedAt: String): Fridge
-    deleteCategory(fridgeId: String!, itemId: ID!): Fridge
+    addCategory(name: String!, icon: String!): ID
+    updateCategory(id: ID!, name: String, icon: String!): Category
+    deleteCategory(id: ID!): ID
 }
