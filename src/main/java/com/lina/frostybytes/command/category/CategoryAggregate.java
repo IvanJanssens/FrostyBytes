@@ -15,7 +15,7 @@ import java.util.UUID;
 @Aggregate
 @Slf4j
 @NoArgsConstructor
-public class CategoryAggregate {
+class CategoryAggregate {
 
     @AggregateIdentifier
     private UUID id;

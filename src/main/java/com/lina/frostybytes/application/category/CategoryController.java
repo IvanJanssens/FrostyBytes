@@ -63,7 +63,7 @@ public class CategoryController {
             DataFetchingEnvironment environment
     ) {
         return queryGateway.subscriptionQuery(
-                new QueryModels.FetchCategoriesQuery(),
+                new QueryModels.GetCategoriesQuery(),
                 QueryModels.Category.class
         );
     }
