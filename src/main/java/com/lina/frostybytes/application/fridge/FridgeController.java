@@ -32,10 +32,6 @@ public class FridgeController {
         return Mono.empty();
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
-    }
 //
 //    @MutationMapping
 //    public Mono<Fridge> updateFridge(@Argument String id, @Argument String name) {

@@ -30,7 +30,7 @@ public record QueryModels() {
             String name,
             @NotNull
             @Valid
-            Category category,
+            com.lina.frostybytes.core_api.category.QueryModels.Category category,
             @NotNull
             LocalDateTime expirationDate,
             @NotBlank
@@ -38,13 +38,4 @@ public record QueryModels() {
     ) {
     }
 
-    public record Category(
-            @NotNull
-            UUID id,
-            @NotBlank
-            String name,
-            @ValidSVG
-            String icon
-    ) {
-    }
 }

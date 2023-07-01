@@ -20,7 +20,8 @@ type Category {
 
 type Query {
     getFridge(id: String!): Fridge
-    getAllFridges(page: Int!, pageSize: Int!): [Fridge!]!
+    getFridges(page: Int!, pageSize: Int!): [Fridge!]!
+    getCategories:[Category]!
 }
 
 type Mutation {
