@@ -1,0 +1,48 @@
+version: '3.0'
+
+
+services:
+  # Mongo database
+  # ------------------------
+  db:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: frostyBytes
+
+
+
+  # Axon Server EventStore and Message Router
+  # -----------------------------------------
+  axonserver:
+    image: axoniq/axonserver:2023.1.0-jdk-17-dev-nonroot
+    hostname: axonserver
+    container_name: axonserver-frostybytest
+    volumes:
+      - type: bind
+        source: ./axonserver/data
+        target: /axonserver/data
+      - type: bind
+        source: ./axonserver/plugins
+        target: /axonserver/plugins
+      - type: bind
+        source: ./axonserver/events
+        target: /axonserver/events
+      - type: bind
+        source: ./axonserver/config
+        target: /axonserver/config
+        read_only: true
+    ports:
+      - 8024:8024
+      - 8124:8124
+      - 8224:8224
+    expose:
+      - 8024
+      - 8124
+      - 8224
+
+
+
