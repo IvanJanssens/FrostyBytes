@@ -1,21 +1,22 @@
 package com.lina.frostybytes.application.fridge;
 
+import com.lina.frostybytes.config.axon.extensions.SubscribingQueryGateway;
 import com.lina.frostybytes.core_api.fridge.CommandModels;
 import com.lina.frostybytes.core_api.fridge.QueryModels;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway;
-import org.axonframework.extensions.reactor.queryhandling.gateway.ReactorQueryGateway;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
+import org.reactivestreams.Publisher;
 import org.springframework.graphql.data.method.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
-import reactor.core.publisher.Flux;
+
+import java.util.List;
 import java.util.UUID;
-import java.util.function.Function;
 
 @Controller
 @RequestMapping("/graphql")
@@ -24,7 +25,7 @@ import java.util.function.Function;
 public class FridgeController {
 
     private final ReactorCommandGateway commandGateway;
-    private final ReactorQueryGateway reactorQueryGateway;
+    private final SubscribingQueryGateway reactorQueryGateway;
 
 
 
@@ -50,17 +51,19 @@ public class FridgeController {
     }
 
     @SubscriptionMapping
-    public Flux<QueryModels.Fridge> getFridges(int page, int pageSize) {
-        return reactorQueryGateway.subscriptionQuery(new QueryModels.GetAllFridgesQuery(page, pageSize),
-                        ResponseTypes.multipleInstancesOf(QueryModels.Fridge.class))
-                .flatMapIterable(Function.identity());
+    public Publisher<List<QueryModels.Fridge>> getFridges(@Argument int page, @Argument int pageSize) {
+        return reactorQueryGateway.subscriptionQueryList(
+                    new QueryModels.GetAllFridgesQuery(page, pageSize),
+                    QueryModels.Fridge.class
+                );
     }
 
     @SubscriptionMapping
-    public Mono<QueryModels.Fridge> getFridge(UUID id) {
-        return reactorQueryGateway.subscriptionQuery(new QueryModels.GetFridgeQuery(id),
-                        ResponseTypes.instanceOf(QueryModels.Fridge.class))
-                .next();
+    public Publisher<QueryModels.Fridge> getFridge(@Argument UUID id) {
+        return reactorQueryGateway.subscriptionQuery(
+                new QueryModels.GetFridgeQuery(id),
+                ResponseTypes.instanceOf(QueryModels.Fridge.class)
+            );
 
     }
 //

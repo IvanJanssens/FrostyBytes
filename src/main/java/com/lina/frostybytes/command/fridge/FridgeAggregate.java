@@ -16,12 +16,12 @@ import java.util.UUID;
 
 @Aggregate
 @NoArgsConstructor
- class FridgeAggregate {
+class FridgeAggregate {
     @AggregateIdentifier
     private UUID id;
 
     @CommandHandler
-    public FridgeAggregate(CommandModels.CreateFridgeCommand command,   FridgeAggregate mapper) {
+    private FridgeAggregate(CommandModels.CreateFridgeCommand command,   FridgeAggregate mapper) {
         AggregateLifecycle.apply(new EventModels.FridgeCreatedEvent(command.id(), command.name()));
     }
 
@@ -31,12 +31,12 @@ import java.util.UUID;
     }
 
     @CommandHandler
-    public void handle(CommandModels.UpdateFridgeCommand command) {
+    private void handle(CommandModels.UpdateFridgeCommand command) {
         AggregateLifecycle.apply(new EventModels.FridgeUpdatedEvent(id, command.name()));
     }
 
     @CommandHandler
-    public void handle(CommandModels.DeleteFridgeCommand command) {
+    private void handle(CommandModels.DeleteFridgeCommand command) {
         AggregateLifecycle.apply(new EventModels.FridgeDeletedEvent(id));
     }
 

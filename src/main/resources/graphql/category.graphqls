@@ -5,11 +5,12 @@ type Category {
 }
 
 extend type Subscription {
+    getCategory(id: ID!): Category!
     getCategories:[Category]!
 }
 
 extend type Mutation {
     addCategory(name: String!, icon: String!): ID
-    updateCategory(id: ID!, name: String, icon: String!): Category
+    updateCategory(id: ID!, name: String, icon: String!): ID
     deleteCategory(id: ID!): ID
 }

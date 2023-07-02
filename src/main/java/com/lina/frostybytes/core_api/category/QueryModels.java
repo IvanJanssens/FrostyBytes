@@ -1,5 +1,6 @@
 package com.lina.frostybytes.core_api.category;
 
+import com.lina.frostybytes.config.axon.extensions.WithId;
 import com.lina.frostybytes.config.validators.ValidSVG;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,6 +20,6 @@ public record QueryModels() {
             String name,
             @ValidSVG
             String icon
-    ) {
+    ) implements WithId {
     }
 }

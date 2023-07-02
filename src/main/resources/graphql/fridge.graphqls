@@ -7,7 +7,7 @@ type Fridge {
 type Items {
     id: ID!
     name: String!
-    category: Category!
+    categoryEntity: Category!
     expirationDate: String!
     placedAt: String!
 }

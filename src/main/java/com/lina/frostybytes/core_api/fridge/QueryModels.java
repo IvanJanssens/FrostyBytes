@@ -1,5 +1,6 @@
 package com.lina.frostybytes.core_api.fridge;
 
+import com.lina.frostybytes.config.axon.extensions.WithId;
 import com.lina.frostybytes.config.validators.ValidSVG;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -22,7 +23,7 @@ public record QueryModels() {
             UUID id,
             @NotBlank
             String name
-    ) {
+    ) implements WithId {
     }
 
     public record Items(

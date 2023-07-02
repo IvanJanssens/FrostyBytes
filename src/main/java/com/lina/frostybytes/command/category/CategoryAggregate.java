@@ -31,7 +31,7 @@ class CategoryAggregate {
     }
 
     @CommandHandler
-    private CategoryAggregate(
+    private void handle(
             CommandModels.updateCategory command,
             CategoryAggregateMapper mapper
     ) {
@@ -41,7 +41,7 @@ class CategoryAggregate {
     }
 
     @CommandHandler
-    private CategoryAggregate(
+    private void handle(
             CommandModels.deleteCategory command,
             CategoryAggregateMapper mapper
     ) {
@@ -53,5 +53,10 @@ class CategoryAggregate {
     @EventSourcingHandler
     private void on(EventModels.CategoryAddedEvent event) {
         this.id = event.id();
+    }
+
+    @EventSourcingHandler
+    public void on(EventModels.CategoryDeletedEvent event) {
+        AggregateLifecycle.markDeleted();
     }
 }

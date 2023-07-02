@@ -1,14 +1,13 @@
 package com.lina.frostybytes.config.axon;
 
+import com.lina.frostybytes.config.axon.extensions.CRUDQueryUpdateEmitter;
+import com.lina.frostybytes.config.axon.extensions.CRUDQueryUpdateEmitterImpl;
+import com.lina.frostybytes.config.axon.extensions.SubscribingQueryGateway;
+import com.lina.frostybytes.config.axon.extensions.SubscribingQueryGatewayImpl;
 import org.axonframework.axonserver.connector.AxonServerConfiguration;
 import org.axonframework.axonserver.connector.AxonServerConnectionManager;
-import org.axonframework.axonserver.connector.command.AxonServerCommandBus;
 import org.axonframework.axonserver.connector.query.AxonServerQueryBus;
-import org.axonframework.commandhandling.CommandBus;
-import org.axonframework.commandhandling.SimpleCommandBus;
-import org.axonframework.commandhandling.distributed.RoutingStrategy;
 import org.axonframework.extensions.reactor.queryhandling.gateway.DefaultReactorQueryGateway;
-import org.axonframework.extensions.reactor.queryhandling.gateway.ReactorQueryGateway;
 import org.axonframework.queryhandling.QueryBus;
 import org.axonframework.queryhandling.QueryUpdateEmitter;
 import org.axonframework.queryhandling.SimpleQueryBus;
@@ -21,13 +20,17 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class QueryGatewayConfig {
 
+    @Bean
+    CRUDQueryUpdateEmitter crudQueryUpdateEmitter() {
+        return new CRUDQueryUpdateEmitterImpl(SimpleQueryUpdateEmitter.builder());
+    }
 
     @Bean
     QueryBus queryBus(
             AxonServerConfiguration axonServerConfiguration,
             AxonServerConnectionManager axonServerConnectionManager,
             Serializer serializer,
-            QueryUpdateEmitter queryUpdateEmitter
+            CRUDQueryUpdateEmitter queryUpdateEmitter
     ){
         SimpleQueryBus localCommandBus = SimpleQueryBus.builder().build();
 
@@ -43,11 +46,11 @@ public class QueryGatewayConfig {
     }
     @Bean
     @Primary
-    public ReactorQueryGateway reactorQueryGateway(QueryBus queryBus) {
-       return DefaultReactorQueryGateway
-                .builder()
-                .queryBus(queryBus)
-                .build();
+    public SubscribingQueryGateway reactorQueryGateway(QueryBus queryBus) {
+       return SubscribingQueryGatewayImpl
+               .subscribingBuilder()
+               .queryBus(queryBus)
+               .build();
 
     }
 }

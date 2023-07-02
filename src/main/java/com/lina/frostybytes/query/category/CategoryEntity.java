@@ -1,5 +1,6 @@
 package com.lina.frostybytes.query.category;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -12,10 +13,12 @@ import java.util.UUID;
 @ToString
 @AllArgsConstructor
 @Document(collection = "categories")
-public class Category {
+public class CategoryEntity {
 
     @Id
-    private UUID id;
-    private String name;
-    private String icon;
+    private final UUID id;
+    @NotBlank
+    private final String name;
+    @NotBlank
+    private final String icon;
 }

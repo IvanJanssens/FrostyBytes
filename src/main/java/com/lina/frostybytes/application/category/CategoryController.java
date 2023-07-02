@@ -1,20 +1,20 @@
 package com.lina.frostybytes.application.category;
 
+import com.lina.frostybytes.config.axon.extensions.SubscribingQueryGateway;
 import com.lina.frostybytes.core_api.category.CommandModels;
 import com.lina.frostybytes.core_api.category.QueryModels;
-import graphql.schema.DataFetchingEnvironment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway;
-import org.axonframework.extensions.reactor.queryhandling.gateway.ReactorQueryGateway;
+import org.reactivestreams.Publisher;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.SubscriptionMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -24,7 +24,7 @@ import java.util.UUID;
 public class CategoryController {
 
     private final ReactorCommandGateway commandGateway;
-    private final ReactorQueryGateway queryGateway;
+    private final SubscribingQueryGateway queryGateway;
 
     @MutationMapping
     public Mono<UUID> addCategory(
@@ -59,12 +59,18 @@ public class CategoryController {
     }
 
     @SubscriptionMapping
-    public Flux<QueryModels.Category> getCategories(
-            DataFetchingEnvironment environment
-    ) {
-        return queryGateway.subscriptionQueryMany(
-                new QueryModels.GetCategoriesQuery(),
-                QueryModels.Category.class
+    public Publisher<List<QueryModels.Category>> getCategories() {
+        return queryGateway.subscriptionQueryList(
+                    new QueryModels.GetCategoriesQuery(),
+                    QueryModels.Category.class
         );
+    }
+
+    @SubscriptionMapping
+    public Publisher<QueryModels.Category> getCategory(@Argument UUID id) {
+        return queryGateway.subscriptionQuery(
+                new QueryModels.GetCategoryQuery(id),
+                QueryModels.Category.class
+        ).log();
     }
 }
