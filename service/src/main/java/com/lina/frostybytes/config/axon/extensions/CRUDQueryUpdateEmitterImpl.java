@@ -3,36 +3,58 @@ package com.lina.frostybytes.config.axon.extensions;
 import org.axonframework.queryhandling.GenericSubscriptionQueryUpdateMessage;
 import org.axonframework.queryhandling.SimpleQueryUpdateEmitter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.function.Predicate;
 
-public class CRUDQueryUpdateEmitterImpl extends SimpleQueryUpdateEmitter implements CRUDQueryUpdateEmitter {
+@Component
+ class CRUDQueryUpdateEmitterImpl extends SimpleQueryUpdateEmitter implements CRUDQueryUpdateEmitter {
 
-    public static final String UPDATE_TYPE = "updateType";
-    public enum QueryUpdateType {
+    public static final String UPDATE_EMITTER_TYPE = "updateEmitterType";
+    public enum QueryUpdateEmitterType {
         INIT,
         ADD,
         UPDATE,
         DELETE
     }
-    public CRUDQueryUpdateEmitterImpl(Builder builder) {
-        super(builder);
+    public CRUDQueryUpdateEmitterImpl() {
+        super(SimpleQueryUpdateEmitter.builder());
     }
 
     @Override
-    public <Q, U> void emitAdd(@NotNull Class<Q> queryType, @NotNull Predicate<? super Q> filter, @Nullable U update) {
-        this.emit(queryType, filter, new GenericSubscriptionQueryUpdateMessage<>((Class<U>) update.getClass(), update, Map.of(UPDATE_TYPE, QueryUpdateType.ADD)));
+    public <Q, T> void emitAdd(@NotNull Class<Q> queryType, @NotNull Predicate<? super Q> filterWhenToEmit, @NotNull T valueToEmit) {
+        this.emit(queryType,
+                filterWhenToEmit,
+                new GenericSubscriptionQueryUpdateMessage<>(
+                        (Class<T>) valueToEmit.getClass(),
+                        valueToEmit,
+                        Map.of(UPDATE_EMITTER_TYPE, QueryUpdateEmitterType.ADD)
+                )
+        );
     }
 
     @Override
-    public <Q, U> void emitUpdate(@NotNull Class<Q> queryType, @NotNull Predicate<? super Q> filter, @Nullable U update) {
-        this.emit(queryType, filter, new GenericSubscriptionQueryUpdateMessage<>((Class<U>) update.getClass(), update, Map.of(UPDATE_TYPE, QueryUpdateType.UPDATE)));
+    public <Q, T> void emitUpdate(@NotNull Class<Q> queryType, @NotNull Predicate<? super Q> filterWhenToEmit, @NotNull T valueToEmit) {
+        this.emit(queryType, filterWhenToEmit,
+                new GenericSubscriptionQueryUpdateMessage<>(
+                        (Class<T>) valueToEmit.getClass(),
+                        valueToEmit, Map.of(UPDATE_EMITTER_TYPE,
+                        QueryUpdateEmitterType.UPDATE)
+                )
+        );
     }
 
     @Override
-    public <Q, U> void emitDelete(@NotNull Class<Q> queryType, @NotNull Predicate<? super Q> filter, @Nullable U update) {
-        this.emit(queryType, filter, new GenericSubscriptionQueryUpdateMessage<>((Class<U>) update.getClass(), update, Map.of(UPDATE_TYPE, QueryUpdateType.DELETE)));
+    public <Q, T> void emitDelete(@NotNull Class<Q> queryType, @NotNull Predicate<? super Q> filterWhenToEmit, @NotNull T valueToEmit) {
+        this.emit(
+                queryType,
+                filterWhenToEmit,
+                new GenericSubscriptionQueryUpdateMessage<>(
+                        (Class<T>) valueToEmit.getClass(),
+                        valueToEmit,
+                        Map.of(UPDATE_EMITTER_TYPE, QueryUpdateEmitterType.DELETE)
+                )
+        );
     }
 }
