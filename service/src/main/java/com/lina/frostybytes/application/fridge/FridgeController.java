@@ -3,6 +3,7 @@ package com.lina.frostybytes.application.fridge;
 import com.lina.frostybytes.config.axon.extensions.SubscribingQueryGateway;
 import com.lina.frostybytes.core_api.fridge.CommandModels;
 import com.lina.frostybytes.core_api.fridge.QueryModels;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -61,7 +62,7 @@ public class FridgeController {
     }
 
     @SubscriptionMapping
-    public Publisher<QueryModels.Fridge> getFridge(@Argument UUID id) {
+    public Publisher<QueryModels.Fridge> getFridge(@Argument @NotNull UUID id) {
         return reactorQueryGateway.subscriptionQueryItem(
                 new QueryModels.GetFridgeQuery(id),
                 QueryModels.Fridge.class
@@ -70,8 +71,8 @@ public class FridgeController {
 
     @MutationMapping
     public Mono<UUID> addItemToFridge(
-            @Argument UUID fridgeId,
-            @Argument ItemInput itemInput
+            @Argument @NotNull UUID fridgeId,
+            @Argument @Valid @NotNull ItemInput itemInput
     ) {
         UUID newId = UUID.randomUUID();
         return commandGateway
@@ -87,7 +88,7 @@ public class FridgeController {
     public Mono<UUID> updateItem(
             @Argument @NotNull UUID itemId,
             @Argument @NotNull UUID fridgeId,
-            @Argument ItemInput itemInput
+            @Argument @Valid @NotNull ItemInput itemInput
     ) {
         return commandGateway
                 .send(new CommandModels.UpdateItemCommand(

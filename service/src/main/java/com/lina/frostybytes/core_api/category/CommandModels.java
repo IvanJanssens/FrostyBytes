@@ -1,29 +1,32 @@
 package com.lina.frostybytes.core_api.category;
 
+import com.lina.frostybytes.config.validators.ValidSVG;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
+import java.time.Duration;
 import java.util.UUID;
 
 public record CommandModels() {
 
-    public record addCategory(
+    public record createCategory(
             @TargetAggregateIdentifier
             @NotNull UUID id,
             @NotBlank String name,
-            @NotBlank String icon
+            @ValidSVG String icon,
+            @NotNull Duration expiryPeriod
     ) {}
 
-    public record updateCategory(
+    public record UpdateCategory(
             @TargetAggregateIdentifier
             @NotNull UUID id,
             @NotBlank String name,
-            @NotBlank String icon
+            @ValidSVG String icon,
+            @NotNull Duration expiryPeriod
     ) {}
 
-    public record deleteCategory(
+    public record DeleteCategory(
             @TargetAggregateIdentifier
             @NotNull UUID id
     ) {}

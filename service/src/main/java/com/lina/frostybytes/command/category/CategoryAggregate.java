@@ -22,7 +22,7 @@ class CategoryAggregate {
 
     @CommandHandler
     private CategoryAggregate(
-            CommandModels.addCategory command,
+            CommandModels.createCategory command,
             CategoryAggregateMapper mapper
     ) {
 
@@ -32,7 +32,7 @@ class CategoryAggregate {
 
     @CommandHandler
     private void handle(
-            CommandModels.updateCategory command,
+            CommandModels.UpdateCategory command,
             CategoryAggregateMapper mapper
     ) {
 
@@ -42,7 +42,7 @@ class CategoryAggregate {
 
     @CommandHandler
     private void handle(
-            CommandModels.deleteCategory command,
+            CommandModels.DeleteCategory command,
             CategoryAggregateMapper mapper
     ) {
 
