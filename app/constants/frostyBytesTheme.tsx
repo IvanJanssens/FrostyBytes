@@ -27,6 +27,18 @@ export const frostyBytesTheme = {
             900: '#473e2e'
         },
 
+        tertiary: {
+            50: '#fff9ed',
+            100: '#ffebc7',
+            200: '#fcdda5',
+            300: '#eccf9b',
+            400: '#dbc190',
+            500: '#c8b083',
+            600: '#A2D2FF',
+            700: '#998764',
+            800: '#796a4f',
+            900: '#473e2e'
+        },
         gray: {
             50: '#faf9f9',
             100: '#f0edec',

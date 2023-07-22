@@ -1,9 +1,11 @@
-import {SafeAreaView, Text, View} from "react-native";
+import {View} from "react-native";
 import {styles} from "../home/homeScreen.styles";
-import {Button, TextInput} from "react-native-paper";
+import {Button, TextInput, Text} from "react-native-paper";
 import {useState} from "react";
 import {gql, useMutation} from "@apollo/client";
 import {withApollo} from "@apollo/client/react/hoc";
+import {SafeAreaView} from "react-native-safe-area-context";
+import {frostyBytesTheme} from "../../constants/frostyBytesTheme";
 
 
 const ADD_FRIDGE = gql`
@@ -20,11 +22,12 @@ const FridgeForm = () => {
     if (error) return <View>`Submission error! ${error.message}`</View>;
     return (
         <SafeAreaView style={styles.container}>
-            <Text>New fridge</Text>
+            <Text variant="displayLarge" theme={{ colors: {primary: frostyBytesTheme.colors.primary["600"] }}}>New fridge</Text>
             <TextInput
                 label="Name"
                 mode="outlined"
                 value={name}
+                outlineColor={frostyBytesTheme.colors.tertiary["600"]}
                 onChangeText={name => setName(name)}
             />
             <Button
