@@ -1,12 +1,18 @@
 import React from 'react';
 import {Tabs} from "../components/navigation/Tabs";
-import {NavigationContainer} from "@react-navigation/native";
+import {DefaultTheme, NavigationContainer} from "@react-navigation/native";
 import {frostyBytesTheme} from "../constants/frostyBytesTheme";
 
-
+const MyTheme = {
+    ...DefaultTheme,
+    colors: {
+        ...DefaultTheme.colors,
+        background: frostyBytesTheme.colors.gray["50"],
+    },
+};
 const App = () => {
     return (
-    <NavigationContainer>
+    <NavigationContainer theme={MyTheme}>
         <Tabs />
     </NavigationContainer>
     )
