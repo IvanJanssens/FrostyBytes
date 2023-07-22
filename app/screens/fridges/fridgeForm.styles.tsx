@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
         justifyContent:'space-around',
         backgroundColor: frostyBytesTheme.colors.gray["50"],
         borderRadius: 35,
-        border: 'solid 1px #E68A8A',
         padding: '3rem'
     },
     text: {

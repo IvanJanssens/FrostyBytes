@@ -9,6 +9,7 @@ import {ApolloClient, ApolloProvider, HttpLink, InMemoryCache, split} from "@apo
 import {getMainDefinition} from "@apollo/client/utilities";
 import {PaperProvider} from "react-native-paper";
 import {View} from "react-native";
+import {frostyBytesTheme} from "../constants/frostyBytesTheme";
 
 const wsLink = new GraphQLWsLink(createClient({
     url:"ws://localhost:8080/graphql"
@@ -38,13 +39,15 @@ const Client = new ApolloClient({
     cache:new InMemoryCache()
 })
 root.render(
-  <React.StrictMode>
-      <ApolloProvider client={Client}>
-          <PaperProvider>
-            <App/>
-          </PaperProvider>
-      </ApolloProvider>
-  </React.StrictMode>
+  <div style={{ display: 'flex', flex: 1, backgroundColor: frostyBytesTheme.colors.gray["50"]}}>
+      <React.StrictMode>
+          <ApolloProvider client={Client}>
+              <PaperProvider>
+                <App/>
+              </PaperProvider>
+          </ApolloProvider>
+      </React.StrictMode>
+  </div>
 );
 
 // If you want to start measuring performance in your app, pass a function
