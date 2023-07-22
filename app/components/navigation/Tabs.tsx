@@ -4,14 +4,15 @@ import {CategoriesScreen} from "../../screens/categories/CategoriesScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {faAppleWhole, faAsterisk, faHouse, faPlus, faTags} from "@fortawesome/free-solid-svg-icons";
 import TabBarIcon from "./TabBarIcon";
-import {screenOptions, viewStyles} from "./tabs.styles";
+import {screenOptions} from "./tabs.styles";
 import TabBarButton from "./TabBarButton";
-import {ItemScreen} from "../../screens/item/ItemScreen";
+import {EmptyScreen} from "../../screens/empty/EmptyScreen";
 import {frostyBytesTheme} from "../../constants/frostyBytesTheme";
 import FridgesScreen from "../../screens/fridges/FridgesScreen";
-import React, {useState} from "react";
+import React, {Fragment, useState} from "react";
 import {Alert, Modal, Pressable, Text, View} from "react-native";
 import {useNavigationState} from "@react-navigation/native";
+import {ObjectModal} from "../modal/ObjectModal";
 
 
 const Tab = createBottomTabNavigator();
@@ -19,36 +20,13 @@ const Tab = createBottomTabNavigator();
 export const Tabs = () => {
     const navigationState = useNavigationState(state => state);
     const [modalVisible, setModalVisible] = useState(false);
-    const openModelBasedOnNavigationState = () => {
-        console.log("clicked")
+
+    const openModal = () => {
         setModalVisible(true)
     }
     return (
-        <View style={{
-            flexDirection: 'row',
-            height: '100%',
-            width: '100%',
-            padding: 20,
-        }}>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    Alert.alert('Modal has been closed.');
-                    setModalVisible(!modalVisible);
-                }}>
-                <View style={viewStyles.centeredView}>
-                    <View style={viewStyles.modalView}>
-                        <Text style={viewStyles.modalText}>Hello World!</Text>
-                        <Pressable
-                            style={[viewStyles.button, viewStyles.buttonClose]}
-                            onPress={() => setModalVisible(!modalVisible)}>
-                            <Text style={viewStyles.textStyle}>Hide Modal</Text>
-                        </Pressable>
-                    </View>
-                </View>
-            </Modal>
+        <Fragment >
+            <ObjectModal isVisible={modalVisible} setModalVisible={setModalVisible}></ObjectModal>
            <Tab.Navigator screenOptions={screenOptions}>
                <Tab.Screen name="Home" component={HomeScreen}
                options={{
@@ -66,7 +44,7 @@ export const Tabs = () => {
                         )
                     }}
                     />
-               <Tab.Screen name="Item" component={ItemScreen}
+               <Tab.Screen name="Item" component={EmptyScreen}
                            options={{
                                tabBarIcon:({focused}) => (
                                    TabBarIcon(focused,
@@ -79,7 +57,7 @@ export const Tabs = () => {
                                ),
                                tabBarButton: (props) =>(
 
-                                   <TabBarButton {...props} onPress={openModelBasedOnNavigationState} ></TabBarButton>
+                                   <TabBarButton {...props} onPress={openModal} ></TabBarButton>
                                )
                            }}
                />
@@ -98,7 +76,7 @@ export const Tabs = () => {
                            }}
                />
            </Tab.Navigator>
-        </View>
+        </Fragment>
    )
  }
 

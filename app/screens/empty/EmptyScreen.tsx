@@ -1,9 +1,8 @@
 import {Text, View} from "react-native";
-import {styles} from "./itemScreen.styles";
+import {styles} from "./emptyScreen.styles";
 
-export const ItemScreen = () =>  (
+export const EmptyScreen = () =>  (
         <View style={styles.container}>
-            <Text>Item Screen</Text>
         </View>
     )
 

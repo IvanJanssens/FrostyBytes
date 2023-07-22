@@ -7,14 +7,5 @@ export const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'center',
         backgroundColor: frostyBytesTheme.colors.gray["50"]
-    },
-    listContainer: {
-        flex:1,
-        width:"100%",
-
-    },
-    listItem: {
-        marginTop: 10,
-        marginBottom:10
     }
 })
