@@ -1,5 +1,6 @@
 export const frostyBytesTheme = {
     colors: {
+        red:"#FF0F0F",
         primary: {
             50: '#fff8f7',
             100: '#ffe9e5',

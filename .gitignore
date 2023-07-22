@@ -6,3 +6,5 @@ app/.expo/web/cache/development/babel-loader/
 .DS_Store
 
 app/.expo/
+service/target
+service/docker/axonserver

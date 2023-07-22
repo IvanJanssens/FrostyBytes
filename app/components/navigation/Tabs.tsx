@@ -1,5 +1,4 @@
 import {HomeScreen} from "../../screens/home/HomeScreen";
-import {FridgesScreen} from "../../screens/fridges/FridgesScreen";
 import {ItemsScreen} from "../../screens/items/ItemsScreen";
 import {CategoriesScreen} from "../../screens/categories/CategoriesScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
@@ -9,12 +8,18 @@ import {screenOptions} from "./tabs.styles";
 import TabBarButton from "./TabBarButton";
 import {ItemScreen} from "../../screens/item/ItemScreen";
 import {frostyBytesTheme} from "../../constants/frostyBytesTheme";
+import FridgesScreen from "../../screens/fridges/FridgesScreen";
+import React from "react";
 
 
 const Tab = createBottomTabNavigator();
+const openModelBasedOnNavigationState = () => {
+    console.log("clicked")
 
+}
 export const Tabs = () => {
-   return (
+
+    return (
        <Tab.Navigator screenOptions={screenOptions}>
            <Tab.Screen name="Home" component={HomeScreen}
            options={{
@@ -44,7 +49,8 @@ export const Tabs = () => {
                                    )
                            ),
                            tabBarButton: (props) =>(
-                               <TabBarButton {...props}></TabBarButton>
+
+                               <TabBarButton {...props} onPress={openModelBasedOnNavigationState} ></TabBarButton>
                            )
                        }}
            />
