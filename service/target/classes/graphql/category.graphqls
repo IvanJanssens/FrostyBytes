@@ -2,6 +2,8 @@ type Category {
     id: ID!
     name: String!
     icon: String!
+    deleted: Boolean!
+    items: [Item]!
 }
 
 extend type Subscription {

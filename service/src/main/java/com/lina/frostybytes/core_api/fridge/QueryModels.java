@@ -1,32 +1,32 @@
 package com.lina.frostybytes.core_api.fridge;
 
 import com.lina.frostybytes.config.axon.extensions.WithId;
-import com.lina.frostybytes.config.validators.ValidSVG;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public record QueryModels() {
-    public record GetAllFridgesQuery(int page, int size) {
-    }
-    public record GetFridgeQuery(UUID id) {
-    }
+    public record GetAllFridgesQuery(int page, int size) {}
+    public record GetFridgeQuery(UUID id) {}
+    public record GetAllItemsQuery(int page, int size) {}
+    public record GetItemQuery(UUID id) {}
 
     public record Fridge(
             @NotNull
             UUID id,
             @NotBlank
-            String name
+            String name,
+            Set<Item> items,
+
+            boolean deleted
     ) implements WithId {
     }
 
-    public record Items(
+    public record Item(
             @NotNull
             UUID id,
             @NotBlank
@@ -35,9 +35,9 @@ public record QueryModels() {
             @Valid
             com.lina.frostybytes.core_api.category.QueryModels.Category category,
             @NotNull
-            LocalDateTime expirationDate,
+            LocalDate expirationDate,
             @NotBlank
-            LocalDateTime placedAt
+            LocalDate placedAt
     ) {
     }
 

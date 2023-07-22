@@ -1,10 +1,11 @@
 type Fridge {
-    id: String!
+    id: ID!
     name: String!
-    items:[Items]!
+    items:[Item]!
+    deleted: Boolean!
 }
 
-type Items {
+type Item {
     id: ID!
     name: String!
     categoryEntity: Category!
@@ -13,18 +14,18 @@ type Items {
 }
 
 type Subscription {
-    getFridge(id: String!): Fridge
+    getFridge(id: ID!): Fridge
     getFridges(page: Int!, pageSize: Int!): [Fridge!]!
 }
 
 type Mutation {
     createFridge(name: String!): ID!
-    deleteFridge(id: String!): ID!
-    updateFridge(id: String!, name: String!): ID!
+    deleteFridge(id: ID!): ID!
+    updateFridge(id: ID!, name: String!): ID!
 
-    addItemToFridge(fridgeId: String!, name: String!, categoryId: ID!, expirationDate: String!, placedAt: String!): Fridge
-    updateItemInFridge(fridgeId: String!, itemId: ID!, name: String, categoryId: ID, expirationDate: String, placedAt: String): Fridge
-    deleteItemFromFridge(fridgeId: String!, itemId: ID!): Fridge
+    addItemToFridge(fridgeId: ID!, name: String!, categoryId: ID!, expirationDate: String!, placedAt: String!): ID!
+    updateItemInFridge(fridgeId: ID!, itemId: ID!, name: String, categoryId: ID, expirationDate: String, placedAt: String): ID!
+    deleteItemFromFridge(fridgeId: ID!, itemId: ID!): ID!
 
 }
 
