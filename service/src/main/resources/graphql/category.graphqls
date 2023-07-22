@@ -2,6 +2,7 @@ type Category {
     id: ID!
     name: String!
     icon: String!
+    expiryPeriod: String!,
     deleted: Boolean!
     item: [Item]!
 }
@@ -12,7 +13,7 @@ extend type Subscription {
 }
 
 extend type Mutation {
-    addCategory(name: String!, icon: String!): ID
-    updateCategory(id: ID!, name: String, icon: String!): ID
-    deleteCategory(id: ID!): ID
+    createCategory(name: String!, icon: String!, expiryPeriod:String!): ID!
+    updateCategory(id: ID!, name: String, icon: String!): ID!
+    deleteCategory(id: ID!): ID!
 }

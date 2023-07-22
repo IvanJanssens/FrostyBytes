@@ -23,6 +23,7 @@ public interface CategoryMapper {
     @Mapping(target = "items", source = "entity.items")
     @Mapping(target = "name", source = "event.name")
     @Mapping(target = "icon", source = "event.icon")
+    @Mapping(target = "expiryPeriod", source = "event.expiryPeriod")
     CategoryEntity toEntity(CategoryEntity entity, EventModels.CategoryUpdatedEvent event);
 
     @Valid

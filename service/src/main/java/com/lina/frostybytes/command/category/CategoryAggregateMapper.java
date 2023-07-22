@@ -12,9 +12,9 @@ import javax.validation.Valid;
 public interface CategoryAggregateMapper {
 
     @Valid
-    EventModels.CategoryAddedEvent toEvent(CommandModels.addCategory command);
+    EventModels.CategoryAddedEvent toEvent(CommandModels.createCategory command);
     @Valid
-    EventModels.CategoryUpdatedEvent toEvent(CommandModels.updateCategory command);
+    EventModels.CategoryUpdatedEvent toEvent(CommandModels.UpdateCategory command);
     @Valid
-    EventModels.CategoryDeletedEvent toEvent(CommandModels.deleteCategory command);
+    EventModels.CategoryDeletedEvent toEvent(CommandModels.DeleteCategory command);
 }

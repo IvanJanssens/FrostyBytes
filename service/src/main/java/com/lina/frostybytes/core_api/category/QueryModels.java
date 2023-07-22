@@ -5,6 +5,7 @@ import com.lina.frostybytes.config.validators.ValidSVG;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.Duration;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,6 +23,8 @@ public record QueryModels() {
             @ValidSVG
             String icon,
             Set<com.lina.frostybytes.core_api.fridge.QueryModels.Item> items,
+
+            @NotNull Duration expiryPeriod,
             boolean deleted
     ) implements WithId {
     }
