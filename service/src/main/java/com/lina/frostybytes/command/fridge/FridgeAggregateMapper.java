@@ -4,6 +4,7 @@ package com.lina.frostybytes.command.fridge;
 import com.lina.frostybytes.core_api.fridge.CommandModels;
 import com.lina.frostybytes.core_api.fridge.EventModels;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;

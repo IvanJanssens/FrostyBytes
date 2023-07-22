@@ -8,4 +8,5 @@ import java.util.List;
 public interface SubscribingQueryGateway extends ReactorQueryGateway {
 
     <Q, T extends WithId> Publisher<List<T>> subscriptionQueryList(Q query, Class<T> responseType);
+    <Q, T> Publisher<T> subscriptionQueryItem(Q query, Class<T> responseType);
 }

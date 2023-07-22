@@ -5,16 +5,18 @@ import com.lina.frostybytes.core_api.fridge.CommandModels;
 import com.lina.frostybytes.core_api.fridge.QueryModels;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway;
-import org.axonframework.messaging.responsetypes.ResponseTypes;
-import org.reactivestreams.Publisher;
-import org.springframework.graphql.data.method.annotation.*;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway;
+import org.reactivestreams.Publisher;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.SubscriptionMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,70 +62,49 @@ public class FridgeController {
 
     @SubscriptionMapping
     public Publisher<QueryModels.Fridge> getFridge(@Argument UUID id) {
-        return reactorQueryGateway.subscriptionQuery(
+        return reactorQueryGateway.subscriptionQueryItem(
                 new QueryModels.GetFridgeQuery(id),
-                ResponseTypes.instanceOf(QueryModels.Fridge.class)
-            );
-
+                QueryModels.Fridge.class
+        );
     }
-//
-//    @MutationMapping
-//    public Mono<Fridge> addItemToFridge(@Argument String fridgeId,
-//                                        @Argument String name,
-//                                        @Argument String categoryId,
-//                                        @Argument String expirationDate,
-//                                        @Argument String placedAt) {
-//        return fridgeService.addItemToFridge(fridgeId, name, categoryId, expirationDate, placedAt);
-//    }
-//
-//    @MutationMapping
-//    public Mono<Fridge> updateItemInFridge(@Argument String fridgeId,
-//                                           @Argument String itemId,
-//                                           @Argument String name,
-//                                           @Argument String categoryId,
-//                                           @Argument String expirationDate,
-//                                           @Argument String placedAt) {
-//        return fridgeService.updateItemInFridge(fridgeId, itemId, name, categoryId, expirationDate, placedAt);
-//    }
-//
-//    @MutationMapping
-//    public Mono<Fridge> deleteItemFromFridge(@Argument String fridgeId,
-//                                             @Argument String itemId) {
-//        return fridgeService.deleteItemFromFridge(fridgeId, itemId);
-//    }
-//
-//    @MutationMapping
-//    public Mono<Fridge> addCategory(@Argument String fridgeId,
-//                                    @Argument String name,
-//                                    @Argument String categoryId,
-//                                    @Argument String expirationDate,
-//                                    @Argument String placedAt) {
-//        return fridgeService.addCategory(fridgeId, name, categoryId, expirationDate, placedAt);
-//    }
-//
-//    @MutationMapping
-//    public Mono<Fridge> updateCategory(@Argument String fridgeId,
-//                                       @Argument String itemId,
-//                                       @Argument String name,
-//                                       @Argument String categoryId,
-//                                       @Argument String expirationDate,
-//                                       @Argument String placedAt) {
-//        return fridgeService.updateCategory(fridgeId, itemId, name, categoryId, expirationDate, placedAt);
-//    }
-//
-//    @MutationMapping
-//    public Mono<Fridge> deleteCategory(@Argument String fridgeId,
-//                                       @Argument String itemId) {
-//        return fridgeService.deleteCategory(fridgeId, itemId);
-//    }
-//
-//    @QueryMapping
-//    public Flux<Fridge> getAllFridges(DataFetchingEnvironment environment) {
-//        return fridgeService.getAllFridges();
-//    }
-//
-//    @BatchMapping
-//    public Flux<Items> batchLoadItems(List<String> itemIds, DataFetchingEnvironment environment){
-//
-//    }
+
+    @MutationMapping
+    public Mono<UUID> addItemToFridge(
+            @Argument UUID fridgeId,
+            @Argument ItemInput itemInput
+    ) {
+        UUID newId = UUID.randomUUID();
+        return commandGateway
+                .send(new CommandModels.AddItemToFridgeCommand(
+                        newId,
+                        fridgeId,
+                        new CommandModels.ItemFields(itemInput.name(), itemInput.categoryId(), itemInput.expirationDate(), itemInput.placedAt()))
+                )
+                .thenReturn(newId);
+    }
+
+    @MutationMapping
+    public Mono<UUID> updateItem(
+            @Argument @NotNull UUID itemId,
+            @Argument @NotNull UUID fridgeId,
+            @Argument ItemInput itemInput
+    ) {
+        return commandGateway
+                .send(new CommandModels.UpdateItemCommand(
+                        itemId,
+                        fridgeId,
+                        new CommandModels.ItemFields(itemInput.name(), itemInput.categoryId(), itemInput.expirationDate(), itemInput.placedAt()))
+                )
+                .thenReturn(itemId);
+    }
+
+    @MutationMapping
+    public Mono<UUID> deleteItemFromFridge(
+            @Argument @NotNull UUID itemId,
+            @Argument @NotNull UUID fridgeId
+    ) {
+        return commandGateway
+            .send(new CommandModels.DeleteItemCommand(itemId, fridgeId))
+            .thenReturn(itemId);
+    }
 }
