@@ -8,6 +8,7 @@ import {createClient} from "graphql-ws";
 import {ApolloClient, ApolloProvider, HttpLink, InMemoryCache, split} from "@apollo/client";
 import {getMainDefinition} from "@apollo/client/utilities";
 import {PaperProvider} from "react-native-paper";
+import {View} from "react-native";
 
 const wsLink = new GraphQLWsLink(createClient({
     url:"ws://localhost:8080/graphql"
@@ -40,7 +41,7 @@ root.render(
   <React.StrictMode>
       <ApolloProvider client={Client}>
           <PaperProvider>
-            <App />
+            <App/>
           </PaperProvider>
       </ApolloProvider>
   </React.StrictMode>

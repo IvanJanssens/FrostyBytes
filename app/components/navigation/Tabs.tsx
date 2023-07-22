@@ -54,6 +54,7 @@ export const Tabs = () => {
                <Tab.Screen
                    name="Fridges"
                    component={FridgesScreen}
+
                    options={{
                         tabBarIcon: ({focused}) => (
                             TabBarIcon(focused, "Fridges", faAsterisk)

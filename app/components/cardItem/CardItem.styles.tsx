@@ -29,13 +29,14 @@ export const styles = StyleSheet.create({
         flex: 1,
         height: "auto",
         paddingLeft: 10,
-        paddingRight:20,
-        paddingTop:10,
-        paddingBottom:10,
+        paddingRight: 20,
+        paddingTop: 10,
+        paddingBottom: 10,
         justifyContent: "flex-start",
         alignItems: "center",
         flexDirection: "row",
-        gap:10
+        gap: 10,
+        width: '100%'
     },
 
     iconContainer:{
@@ -45,6 +46,9 @@ export const styles = StyleSheet.create({
     },
     actionIcon:{
         padding: 1
+    },
+    textContainer: {
+        flex: 1
     },
     title: {
         fontSize: frostyBytesTheme.sizes.medium,

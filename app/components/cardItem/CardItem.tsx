@@ -22,7 +22,7 @@ const CardItem = ({icon,title,subTitle,extraInfo}:
                                              color="#A2D2FF"
                             />
                         </View>
-                        <View>
+                        <View style={styles.textContainer}>
                             <Text style={styles.title}>{title}</Text>
                             <View>
                                 <Text style={styles.subTitle}>

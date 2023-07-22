@@ -19,11 +19,11 @@ export const viewStyles = StyleSheet.create({
 
     }, reactNodeContainer: {
         alignSelf:"center",
-        marginTop:50,
+        marginTop: 50,
+        height: 'calc(100% - 50px)',
+        paddingBottom: 50,
+        borderRadius: 35,
         width:"90%",
-        border: 1,
-        borderStyle:"solid",
-        borderColor:frostyBytesTheme.colors.red
     },
 
 

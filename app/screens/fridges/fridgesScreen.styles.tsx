@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
         flex:1,
         alignItems:'center',
         justifyContent:'center',
-        backgroundColor: frostyBytesTheme.colors.gray["50"]
+        backgroundColor: frostyBytesTheme.colors.gray["50"],
     },
     listContainer: {
         flex:1,
