@@ -15,14 +15,22 @@ export const viewStyles = StyleSheet.create({
         height:"65%",
         width:"80%",
         borderRadius: 35,
-        ...frostyBytesTheme.shadows.small,
-        flexDirection:"row",
-        justifyContent:"space-between",
-        padding:25
+        ...frostyBytesTheme.shadows.small
 
     }, reactNodeContainer: {
+        alignSelf:"center",
         marginTop:50,
+        width:"90%",
+        border: 1,
+        borderStyle:"solid",
+        borderColor:frostyBytesTheme.colors.red
+    },
+
+
+    closeIconContainer:{
+        position: "absolute",
+        top: 0,
+        right: 0,
+        padding: 20
     }
-
-
 });

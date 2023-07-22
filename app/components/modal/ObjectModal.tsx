@@ -19,8 +19,7 @@ export const ObjectModal = ({isVisible, setModalVisible, reactElement}:
         }} >
         <View style={viewStyles.centeredView} >
             <View style={viewStyles.modalView}>
-                <View style={viewStyles.reactNodeContainer}>{reactElement}</View>
-                <Pressable
+                <Pressable style={viewStyles.closeIconContainer}
                     onPress={() => setModalVisible(!isVisible)}>
                     <FontAwesomeIcon style={styles.actionIcon}
                                      icon={faClose}
@@ -28,6 +27,7 @@ export const ObjectModal = ({isVisible, setModalVisible, reactElement}:
                                      color={frostyBytesTheme.colors.gray["700"]}
                     />
                 </Pressable>
+                <View style={viewStyles.reactNodeContainer}>{reactElement}</View>
             </View>
         </View>
     </Modal>)
