@@ -1,6 +1,6 @@
 export const frostyBytesTheme = {
     colors: {
-        red:"#FF0F0F",
+        red: "#FF0F0F",
         primary: {
             50: '#fff8f7',
             100: '#ffe9e5',
@@ -28,16 +28,16 @@ export const frostyBytesTheme = {
         },
 
         tertiary: {
-            50: '#fff9ed',
-            100: '#ffebc7',
-            200: '#fcdda5',
-            300: '#eccf9b',
-            400: '#dbc190',
-            500: '#c8b083',
-            600: '#A2D2FF',
-            700: '#998764',
-            800: '#796a4f',
-            900: '#473e2e'
+            50: "#fbfdff",
+            100: "#e5f2ff",
+            200: "#cfe8ff",
+            300: "#b9ddff",
+            400: "#a2d2ff",
+            500: "#98ccfd",
+            600: "#8dc6fb",
+            700: "#83c0f9",
+            800: "#79b9f6",
+            900: "#6fb3f2"
         },
         gray: {
             50: '#faf9f9',

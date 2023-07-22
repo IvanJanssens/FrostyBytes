@@ -27,7 +27,7 @@ const FridgeForm = () => {
                 label="Name"
                 mode="outlined"
                 value={name}
-                outlineColor={frostyBytesTheme.colors.tertiary["600"]}
+                outlineColor={frostyBytesTheme.colors.tertiary["400"]}
                 onChangeText={name => setName(name)}
             />
             <Button
