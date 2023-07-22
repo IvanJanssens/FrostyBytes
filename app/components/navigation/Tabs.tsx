@@ -13,6 +13,7 @@ import React, {Fragment, useState} from "react";
 import {Alert, Modal, Pressable, Text, View} from "react-native";
 import {useNavigationState} from "@react-navigation/native";
 import {ObjectModal} from "../modal/ObjectModal";
+import {FridgeForm} from "../../screens/fridges/FridgeForm";
 
 
 const Tab = createBottomTabNavigator();
@@ -24,9 +25,25 @@ export const Tabs = () => {
     const openModal = () => {
         setModalVisible(true)
     }
+
+    const renderCreateComponent = () => {
+        const currentTab = navigationState?.routes[navigationState.index].name;
+        switch (currentTab) {
+            case 'Home':
+                return null;
+            case 'Fridges':
+                return <FridgeForm></FridgeForm>;
+            case 'Items':
+                return null;
+            case 'Categories':
+                return null;
+            default:
+                return null;
+        }
+    };
     return (
         <Fragment >
-            <ObjectModal isVisible={modalVisible} setModalVisible={setModalVisible}></ObjectModal>
+            <ObjectModal isVisible={modalVisible} setModalVisible={setModalVisible} reactElement={renderCreateComponent()}></ObjectModal>
            <Tab.Navigator screenOptions={screenOptions}>
                <Tab.Screen name="Home" component={HomeScreen}
                options={{

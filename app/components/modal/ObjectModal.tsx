@@ -1,14 +1,14 @@
-import {Alert, Modal, Pressable, Text, View} from "react-native";
-import {Dispatch, ReactNode, SetStateAction, useState} from "react";
+import {Alert, Modal, Pressable, View} from "react-native";
+import {Dispatch, ReactNode, SetStateAction} from "react";
 import {viewStyles} from "./ObjectModal.styles";
 import {FontAwesomeIcon} from "@fortawesome/react-native-fontawesome";
 import {styles} from "../cardItem/CardItem.styles";
-import {faClose, faCross, faEraser, faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import {faClose} from "@fortawesome/free-solid-svg-icons";
 import {frostyBytesTheme} from "../../constants/frostyBytesTheme";
 
 
-export const ObjectModal = ({isVisible, setModalVisible, reactNode}:
-                                {isVisible: boolean,setModalVisible:Dispatch<SetStateAction<boolean>>, reactNode: ReactNode}) =>{
+export const ObjectModal = ({isVisible, setModalVisible, reactElement}:
+                                {isVisible: boolean,setModalVisible:Dispatch<SetStateAction<boolean>>, reactElement: ReactNode | null}) =>{
     return (<Modal
         animationType="fade"
         transparent={true}
@@ -19,7 +19,7 @@ export const ObjectModal = ({isVisible, setModalVisible, reactNode}:
         }} >
         <View style={viewStyles.centeredView} >
             <View style={viewStyles.modalView}>
-                <View style={viewStyles.reactNodeContainer}>{reactNode}</View>
+                <View style={viewStyles.reactNodeContainer}>{reactElement}</View>
                 <Pressable
                     onPress={() => setModalVisible(!isVisible)}>
                     <FontAwesomeIcon style={styles.actionIcon}
