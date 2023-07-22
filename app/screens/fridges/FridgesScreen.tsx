@@ -6,7 +6,7 @@ import {gql, useSubscription} from "@apollo/client";
 import {withApollo} from "@apollo/client/react/hoc";
 
 
-export const FETCH_FRIDGES = gql`
+const FETCH_FRIDGES = gql`
     subscription getFridges($page: Int!, $pageSize: Int!) {
         getFridges(
             page: $page,

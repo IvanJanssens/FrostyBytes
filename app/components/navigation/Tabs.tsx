@@ -10,10 +10,9 @@ import {EmptyScreen} from "../../screens/empty/EmptyScreen";
 import {frostyBytesTheme} from "../../constants/frostyBytesTheme";
 import FridgesScreen from "../../screens/fridges/FridgesScreen";
 import React, {Fragment, useState} from "react";
-import {Alert, Modal, Pressable, Text, View} from "react-native";
 import {useNavigationState} from "@react-navigation/native";
 import {ObjectModal} from "../modal/ObjectModal";
-import {FridgeForm} from "../../screens/fridges/FridgeForm";
+import FridgeForm from "../../screens/fridges/FridgeForm";
 
 
 const Tab = createBottomTabNavigator();
