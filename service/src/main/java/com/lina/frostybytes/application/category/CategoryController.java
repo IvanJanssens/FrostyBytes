@@ -6,14 +6,19 @@ import com.lina.frostybytes.core_api.category.QueryModels;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.extensions.reactor.commandhandling.gateway.ReactorCommandGateway;
+import org.axonframework.messaging.responsetypes.ResponseTypes;
+import org.axonframework.queryhandling.*;
 import org.reactivestreams.Publisher;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.SubscriptionMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.concurrent.Queues;
 
+import javax.management.Query;
 import java.util.List;
 import java.util.UUID;
 
@@ -68,9 +73,9 @@ public class CategoryController {
 
     @SubscriptionMapping
     public Publisher<QueryModels.Category> getCategory(@Argument UUID id) {
-        return queryGateway.subscriptionQuery(
+        return queryGateway.subscriptionQueryItem(
                 new QueryModels.GetCategoryQuery(id),
                 QueryModels.Category.class
-        ).log();
+        );
     }
 }

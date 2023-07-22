@@ -1,5 +1,6 @@
 package com.lina.frostybytes.config.axon.extensions;
 
+import com.lina.frostybytes.core_api.category.QueryModels;
 import org.axonframework.extensions.reactor.queryhandling.gateway.DefaultReactorQueryGateway;
 import org.axonframework.messaging.MetaData;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
@@ -9,6 +10,7 @@ import org.reactivestreams.Publisher;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.concurrent.Queues;
 
 import java.util.List;
 import java.util.Map;
@@ -42,6 +44,22 @@ import static com.lina.frostybytes.config.axon.extensions.CRUDQueryUpdateEmitter
                 getSubsequentUpdatesWithInitialValue(responseType, subscriptionQueryResult),
                 (initialQueryResultList, subsequentQueryResult) -> updateResultList(resultList, initialQueryResultList, subsequentQueryResult)
             ).log();
+    }
+
+    @Override
+    public <Q, T> Publisher<T> subscriptionQueryItem(Q query, Class<T> responseType) {
+        SubscriptionQueryResult<QueryResponseMessage<T>, SubscriptionQueryUpdateMessage<T>> queryResult = queryBus.subscriptionQuery(
+                new GenericSubscriptionQueryMessage<>(
+                        query,
+                        ResponseTypes.instanceOf(responseType),
+                        ResponseTypes.instanceOf(responseType)
+                )
+        );
+
+        return Flux.merge(
+                queryResult.initialResult().map(QueryResponseMessage::getPayload),
+                queryResult.updates().map(SubscriptionQueryUpdateMessage::getPayload)
+        ).log();
     }
 
     private <T extends WithId> List<T> updateResultList(

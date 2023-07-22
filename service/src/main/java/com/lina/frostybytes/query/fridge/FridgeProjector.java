@@ -5,6 +5,7 @@ import com.lina.frostybytes.core_api.fridge.EventModels;
 import com.lina.frostybytes.core_api.fridge.QueryModels;
 import com.lina.frostybytes.core_api.shared.EntityNotFound;
 import com.lina.frostybytes.query.category.CategoryEntity;
+import com.lina.frostybytes.query.item.ItemEntity;
 import com.lina.frostybytes.utils.LogUtils;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ class FridgeProjector {
     @EventHandler
     public void create(EventModels.FridgeCreatedEvent event) {
         FridgeEntity entity = fridgeMapper.toEntity(event);
-        fridgeRepository.findById(event.id())
+        fridgeRepository.findById(event.fridgeId())
                 .defaultIfEmpty(entity)
                 .flatMap(fridgeRepository::save)
                 .doOnError(LogUtils::onError)
@@ -38,8 +39,8 @@ class FridgeProjector {
 
     @EventHandler
     public void update(EventModels.FridgeUpdatedEvent event) {
-        fridgeRepository.findById(event.id())
-                .switchIfEmpty(Mono.error(new EntityNotFound(event.id(), CategoryEntity.class)))
+        fridgeRepository.findById(event.fridgeId())
+                .switchIfEmpty(Mono.error(new EntityNotFound(event.fridgeId(), CategoryEntity.class)))
                 .map(entity -> fridgeMapper.toEntity(event))
                 .flatMap(fridgeRepository::save)
                 .doOnError(LogUtils::onError)
@@ -50,11 +51,25 @@ class FridgeProjector {
 
     @EventHandler
     public void delete(EventModels.FridgeDeletedEvent event) {
-        fridgeRepository.findById(event.id())
-                .switchIfEmpty(Mono.error(new EntityNotFound(event.id(), CategoryEntity.class)))
+        fridgeRepository.findById(event.fridgeId())
+                .switchIfEmpty(Mono.error(new EntityNotFound(event.fridgeId(), CategoryEntity.class)))
                 .flatMap(entity -> fridgeRepository.delete(entity).thenReturn(entity))
                 .doOnSuccess(entity -> queryUpdateEmitter.emitDelete(QueryModels.GetAllFridgesQuery.class, query -> true, fridgeMapper.toModel(entity)))
-                .doOnSuccess(entity -> queryUpdateEmitter.emit(QueryModels.GetFridgeQuery.class, query -> query.id().equals(event.id()), (QueryModels.Fridge) null))
+                .doOnSuccess(entity -> queryUpdateEmitter.emitDelete(QueryModels.GetFridgeQuery.class, query -> query.id().equals(event.fridgeId()),  fridgeMapper.toDeleted(entity)))
+                .block();
+    }
+
+    @EventHandler
+    public void addItem(EventModels.ItemAddedToFridgeEvent event) {
+        fridgeRepository.findById(event.fridgeId())
+                .switchIfEmpty(Mono.error(new EntityNotFound(event.fridgeId(), FridgeEntity.class)))
+                .map(entity -> {
+                    entity.getItems().add(new ItemEntity(event.itemId(), event.itemFields().name(), event.itemFields().expirationDate(), event.itemFields().placedAt()));
+                    return entity;
+                })
+                .flatMap(fridgeRepository::save)
+                .doOnSuccess(entity -> queryUpdateEmitter.emitUpdate(QueryModels.GetAllFridgesQuery.class, query -> true, fridgeMapper.toModel(entity)))
+                .doOnSuccess(entity -> queryUpdateEmitter.emitUpdate(QueryModels.GetFridgeQuery.class, query -> query.id().equals(event.fridgeId()), fridgeMapper.toModel(entity)))
                 .block();
     }
 
