@@ -8,6 +8,7 @@ export const screenOptions: BottomTabNavigationOptions = {
         borderRadius: 15,
         height: 90,
         ...frostyBytesTheme.shadows.medium,
+        margin: 5,
     },
     tabBarShowLabel: false
 }
