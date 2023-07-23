@@ -5,7 +5,7 @@ import {faHouse} from "@fortawesome/free-solid-svg-icons";
 import {gql, useMutation, useSubscription} from "@apollo/client";
 import {withApollo} from "@apollo/client/react/hoc";
 import {frostyBytesTheme} from "../../constants/frostyBytesTheme";
-import React, {Dispatch, SetStateAction} from "react";
+import React from "react";
 
 
 const DELETE_CATEGORY = gql`
@@ -26,7 +26,7 @@ const FETCH_FRIDGES = gql`
 `;
 
  const FridgesScreen = ({toggleModal,setItem}:
-                            {toggleModal:() => void, setItem: Dispatch<SetStateAction<any>>}) => {
+                            {toggleModal:() => void, setItem: (item: any) => void}) => {
      const [deleteMutation, deleteMutationStatus] = useMutation(
          DELETE_CATEGORY
      );
@@ -58,5 +58,5 @@ const FETCH_FRIDGES = gql`
         </View>
 )}
 
-export default withApollo<{toggleModal: () => void, setItem: Dispatch<SetStateAction<any>>}>(FridgesScreen);
+export default withApollo<{toggleModal: () => void, setItem: (item: any) => void}>(FridgesScreen);
 
