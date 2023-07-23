@@ -31,7 +31,7 @@ export const Tabs = () => {
             case 'Home':
                 return null;
             case 'Fridges':
-                return <FridgeForm></FridgeForm>;
+                return <FridgeForm setModalVisible={setModalVisible}></FridgeForm>;
             case 'Items':
                 return null;
             case 'Categories':

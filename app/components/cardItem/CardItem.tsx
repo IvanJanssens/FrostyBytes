@@ -6,13 +6,13 @@ import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import {faTrashCan} from "@fortawesome/free-solid-svg-icons";
 
 
-const CardItem = ({icon,title,subTitle,extraInfo}:
-                      {icon: IconProp, title: string, subTitle?: string, extraInfo?: string}) => {
+const CardItem = ({icon,title,subTitle,extraInfo,onDeletePress, onCardPress}:
+                      {icon: IconProp, title: string, subTitle?: string, extraInfo?: string,onDeletePress:()=>void,onCardPress:()=>void }) => {
     return (
         <TouchableHighlight
             style={styles.container}
             underlayColor={frostyBytesTheme.colors.white["400"]}
-            onPress={() => console.log("clicked card")}>
+            onPress={onDeletePress}>
                 <View style={styles.card}>
                     <View style={styles.itemSection}>
                         <View style={styles.iconContainer}>
