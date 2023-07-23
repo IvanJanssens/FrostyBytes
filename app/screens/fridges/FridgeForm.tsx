@@ -1,58 +1,52 @@
 import {Button, Text, TextInput} from "react-native-paper";
 import React, {useState} from "react";
-import {gql, useMutation} from "@apollo/client";
+import { useMutation} from "@apollo/client";
 import {withApollo} from "@apollo/client/react/hoc";
 import {frostyBytesTheme} from "../../constants/frostyBytesTheme";
 import {styles} from "./fridgeForm.styles";
 import {ActivityIndicator, View} from "react-native";
+import { graphql } from '../../src/gql'
+import {Fridge} from "../../src/gql/graphql";
 
-interface FridgeFormProps {
-    id: string;
-    name: string;
-}
 
-const ADD_FRIDGE = gql`
+
+const CREATE_FRIDGE = graphql(`
     mutation CreateFridge($name: String!) {
         createFridge(name: $name)
     }
-`;
+`);
 
-const UPDATE_FRIDGE = gql`
+const UPDATE_FRIDGE = graphql(`
     mutation updateFridge($id: ID!, $name: String!) {
         updateFridge(id: $id, name: $name)
     }
-`;
+`);
 
 const FridgeForm = ({fridge, toggleModal}: {
-    fridge: FridgeFormProps | null,
+    fridge: Fridge | null,
     toggleModal: () => void
 }) => {
     const [name, setName] = useState(fridge?.name || '');
-    const [mutateFunction, {loading, error}] = useMutation(
-        fridge ? UPDATE_FRIDGE : ADD_FRIDGE
+    const [updateMutation, updateMutationResult] = useMutation(
+         UPDATE_FRIDGE
+    );
+    const [createMutation, createMutationResult] = useMutation(
+        CREATE_FRIDGE
     );
 
     const onSubmit = async () => {
         try {
-            const {data} = await mutateFunction({
-                variables: {id: fridge?.id, name},
-            });
-            toggleModal()
-
-            if (fridge) {
-
-                // onUpdateComplete(data.updateFridge);
-            } else {
-
-                // onCreateComplete(data.createFridge);
-            }
+          fridge ? await updateMutation({
+                variables:{id: fridge.id, name}
+            }) : await createMutation({variables:{name}});
+            toggleModal();
         } catch (error) {
             console.error('Mutation error', error);
         }
     };
 
-    if (loading) return <ActivityIndicator color={frostyBytesTheme.colors.secondary['500']}/>;
-    if (error) return <View>`Submission error! ${error.message}`</View>;
+    if (updateMutationResult.loading || createMutationResult.loading) return <ActivityIndicator color={frostyBytesTheme.colors.secondary['500']}/>;
+    if (updateMutationResult.error || createMutationResult.error) return <View>`Submission error!`</View>;
 
     return (
         <View style={styles.container}>
@@ -84,6 +78,6 @@ const FridgeForm = ({fridge, toggleModal}: {
 };
 
 export default withApollo<{
-    fridge: FridgeFormProps | null,
+    fridge: Fridge | null,
     toggleModal: () => void
 }>(FridgeForm);

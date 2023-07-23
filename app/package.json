@@ -41,13 +41,17 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "@graphql-codegen/cli": "4.0.1",
+    "@parcel/watcher": "^2.2.0",
+    "@graphql-codegen/client-preset": "4.0.1"
   },
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "eslintConfig": {
     "extends": [
