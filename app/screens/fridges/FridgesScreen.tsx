@@ -25,8 +25,8 @@ const FETCH_FRIDGES = gql`
     }
 `;
 
- const FridgesScreen = ({setModalVisible,setItem}:
-                            {setModalVisible:Dispatch<SetStateAction<boolean>>, setItem: Dispatch<SetStateAction<any>>}) => {
+ const FridgesScreen = ({toggleModal,setItem}:
+                            {toggleModal:() => void, setItem: Dispatch<SetStateAction<any>>}) => {
      const [deleteMutation, deleteMutationStatus] = useMutation(
          DELETE_CATEGORY
      );
@@ -49,7 +49,7 @@ const FETCH_FRIDGES = gql`
                         })}
                                   onCardPress={()=> {
                                       setItem(item)
-                                      setModalVisible(true);
+                                      toggleModal();
                                       }}/>
                     </View>
                     }
@@ -58,5 +58,5 @@ const FETCH_FRIDGES = gql`
         </View>
 )}
 
-export default withApollo<{setModalVisible:Dispatch<SetStateAction<boolean>>, setItem: Dispatch<SetStateAction<any>>}>(FridgesScreen);
+export default withApollo<{toggleModal: () => void, setItem: Dispatch<SetStateAction<any>>}>(FridgesScreen);
 

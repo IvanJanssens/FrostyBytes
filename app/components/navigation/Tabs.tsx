@@ -22,8 +22,13 @@ export const Tabs = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [formItem, setFormItem] = useState(null);
 
-    const openModal = () => {
-        setModalVisible(true)
+    const toggleModal = () => {
+        if (modalVisible) setFormItem(null)
+        setModalVisible(!modalVisible);
+    }
+
+    const updateFormItem = (item: any) => {
+        setFormItem(item)
     }
 
     const renderFormComponent = () => {
@@ -32,7 +37,7 @@ export const Tabs = () => {
             case 'Home':
                 return null;
             case 'Fridges':
-                return <FridgeForm fridge={formItem} setModalVisible={setModalVisible}></FridgeForm>;
+                return <FridgeForm fridge={formItem} toggleModal={toggleModal}></FridgeForm>;
             case 'Items':
                 return null;
             case 'Categories':
@@ -43,7 +48,7 @@ export const Tabs = () => {
     };
     return (
         <Fragment >
-            <ObjectModal isVisible={modalVisible} setModalVisible={setModalVisible} reactElement={renderFormComponent()}></ObjectModal>
+            <ObjectModal isVisible={modalVisible} toggleModal={toggleModal} reactElement={renderFormComponent()}></ObjectModal>
            <Tab.Navigator screenOptions={screenOptions}>
                <Tab.Screen name="Home" component={HomeScreen}
                options={{
@@ -54,7 +59,7 @@ export const Tabs = () => {
                ></Tab.Screen>
                <Tab.Screen
                    name="Fridges"
-                   children={()=><FridgesScreen setModalVisible={setModalVisible} setItem={setFormItem}></FridgesScreen>}
+                   children={()=><FridgesScreen toggleModal={toggleModal} setItem={updateFormItem}></FridgesScreen>}
                    options={{
                         tabBarIcon: ({focused}) => (
                             TabBarIcon(focused, "Fridges", faAsterisk)
@@ -74,7 +79,7 @@ export const Tabs = () => {
                                ),
                                tabBarButton: (props) =>(
 
-                                   <TabBarButton {...props} onPress={openModal} ></TabBarButton>
+                                   <TabBarButton {...props} onPress={toggleModal} ></TabBarButton>
                                )
                            }}
                />

@@ -1,6 +1,6 @@
 import {Button, Text, TextInput} from "react-native-paper";
-import React, {Dispatch, SetStateAction, useState} from "react";
-import {ApolloClient, gql, NormalizedCacheObject, useMutation} from "@apollo/client";
+import React, {useState} from "react";
+import {gql, useMutation} from "@apollo/client";
 import {withApollo} from "@apollo/client/react/hoc";
 import {frostyBytesTheme} from "../../constants/frostyBytesTheme";
 import {styles} from "./fridgeForm.styles";
@@ -23,9 +23,9 @@ const UPDATE_FRIDGE = gql`
     }
 `;
 
-const FridgeForm = ({fridge, setModalVisible}: {
+const FridgeForm = ({fridge, toggleModal}: {
     fridge: FridgeFormProps | null,
-    setModalVisible: Dispatch<SetStateAction<boolean>>
+    toggleModal: () => void
 }) => {
     const [name, setName] = useState(fridge?.name || '');
     const [mutateFunction, {loading, error}] = useMutation(
@@ -37,7 +37,7 @@ const FridgeForm = ({fridge, setModalVisible}: {
             const {data} = await mutateFunction({
                 variables: {id: fridge?.id, name},
             });
-            setModalVisible(false)
+            toggleModal()
 
             if (fridge) {
 
@@ -85,5 +85,5 @@ const FridgeForm = ({fridge, setModalVisible}: {
 
 export default withApollo<{
     fridge: FridgeFormProps | null,
-    setModalVisible: Dispatch<SetStateAction<boolean>>
+    toggleModal: () => void
 }>(FridgeForm);

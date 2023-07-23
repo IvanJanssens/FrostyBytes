@@ -16,7 +16,6 @@ const FETCH_CATEGORIES = gql`
     }
 `;
 
-
 const DELETE_CATEGORY = gql`
     mutation deleteCategory($id:ID!) {
         deleteCategory(id:$id) 
@@ -35,7 +34,7 @@ export const CategoriesScreen = () => {
         <FlatList style={styles.listContainer}
                   data={subscriptionResult.data?.getFridges}
                   renderItem={({item}) => <View style={styles.listItem}>
-                      <CardItem icon={faHouse} title={item.name} onDeletePress={()=>deleteMutation(item.id)  } onCardPress={()=> console.log("card clicked")}/>
+                      <CardItem icon={faHouse} title={item.name} onDeletePress={()=> deleteMutation(item.id)} onCardPress={()=> console.log("card clicked")}/>
                   </View>
                   }
                   keyExtractor={(item) => item.id.toString()}
