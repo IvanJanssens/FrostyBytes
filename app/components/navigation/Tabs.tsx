@@ -1,4 +1,3 @@
-import {HomeScreen} from "../../screens/home/HomeScreen";
 import {ItemsScreen} from "../../screens/items/ItemsScreen";
 import {CategoriesScreen} from "../../screens/categories/CategoriesScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
@@ -13,6 +12,7 @@ import React, {Fragment, useState} from "react";
 import {useNavigationState} from "@react-navigation/native";
 import {ObjectModal} from "../modal/ObjectModal";
 import FridgeForm from "../../screens/fridges/FridgeForm";
+import {HomeScreen} from "../../screens/home/HomeScreen";
 
 
 const Tab = createBottomTabNavigator();
