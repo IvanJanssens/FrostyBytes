@@ -5,7 +5,7 @@ import {faHouse} from "@fortawesome/free-solid-svg-icons";
 import {gql, useMutation, useSubscription} from "@apollo/client";
 import {withApollo} from "@apollo/client/react/hoc";
 import {frostyBytesTheme} from "../../constants/frostyBytesTheme";
-import React from "react";
+import React, {Dispatch, SetStateAction} from "react";
 
 
 const DELETE_CATEGORY = gql`
@@ -25,7 +25,8 @@ const FETCH_FRIDGES = gql`
     }
 `;
 
- const FridgesScreen = () => {
+ const FridgesScreen = ({setModalVisible,setItem}:
+                            {setModalVisible:Dispatch<SetStateAction<boolean>>, setItem: Dispatch<SetStateAction<any>>}) => {
      const [deleteMutation, deleteMutationStatus] = useMutation(
          DELETE_CATEGORY
      );
@@ -46,7 +47,10 @@ const FETCH_FRIDGES = gql`
                                   onDeletePress={() => deleteMutation({
                             variables: {id: item.id.toString()},
                         })}
-                                  onCardPress={()=> console.log("card")}/>
+                                  onCardPress={()=> {
+                                      setItem(item)
+                                      setModalVisible(true);
+                                      }}/>
                     </View>
                     }
                     keyExtractor={(item) => item.id.toString()}
@@ -54,5 +58,5 @@ const FETCH_FRIDGES = gql`
         </View>
 )}
 
-export default withApollo(FridgesScreen);
+export default withApollo<{setModalVisible:Dispatch<SetStateAction<boolean>>, setItem: Dispatch<SetStateAction<any>>}>(FridgesScreen);
 

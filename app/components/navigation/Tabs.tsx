@@ -20,18 +20,19 @@ const Tab = createBottomTabNavigator();
 export const Tabs = () => {
     const navigationState = useNavigationState(state => state);
     const [modalVisible, setModalVisible] = useState(false);
+    const [formItem, setFormItem] = useState(null);
 
     const openModal = () => {
         setModalVisible(true)
     }
 
-    const renderCreateComponent = () => {
+    const renderFormComponent = () => {
         const currentTab = navigationState?.routes[navigationState.index].name;
         switch (currentTab) {
             case 'Home':
                 return null;
             case 'Fridges':
-                return <FridgeForm setModalVisible={setModalVisible}></FridgeForm>;
+                return <FridgeForm fridge={formItem} setModalVisible={setModalVisible}></FridgeForm>;
             case 'Items':
                 return null;
             case 'Categories':
@@ -42,7 +43,7 @@ export const Tabs = () => {
     };
     return (
         <Fragment >
-            <ObjectModal isVisible={modalVisible} setModalVisible={setModalVisible} reactElement={renderCreateComponent()}></ObjectModal>
+            <ObjectModal isVisible={modalVisible} setModalVisible={setModalVisible} reactElement={renderFormComponent()}></ObjectModal>
            <Tab.Navigator screenOptions={screenOptions}>
                <Tab.Screen name="Home" component={HomeScreen}
                options={{
@@ -53,8 +54,7 @@ export const Tabs = () => {
                ></Tab.Screen>
                <Tab.Screen
                    name="Fridges"
-                   component={FridgesScreen}
-
+                   children={()=><FridgesScreen setModalVisible={setModalVisible} setItem={setFormItem}></FridgesScreen>}
                    options={{
                         tabBarIcon: ({focused}) => (
                             TabBarIcon(focused, "Fridges", faAsterisk)

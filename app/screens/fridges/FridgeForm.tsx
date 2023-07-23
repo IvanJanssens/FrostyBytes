@@ -24,7 +24,7 @@ const UPDATE_FRIDGE = gql`
 `;
 
 const FridgeForm = ({fridge, setModalVisible}: {
-    fridge?: FridgeFormProps,
+    fridge: FridgeFormProps | null,
     setModalVisible: Dispatch<SetStateAction<boolean>>
 }) => {
     const [name, setName] = useState(fridge?.name || '');
@@ -84,6 +84,6 @@ const FridgeForm = ({fridge, setModalVisible}: {
 };
 
 export default withApollo<{
-    fridge?: FridgeFormProps,
+    fridge: FridgeFormProps | null,
     setModalVisible: Dispatch<SetStateAction<boolean>>
 }>(FridgeForm);
