@@ -35,7 +35,7 @@ export const CategoriesScreen = () => {
         <FlatList style={styles.listContainer}
                   data={subscriptionResult.data?.getFridges}
                   renderItem={({item}) => <View style={styles.listItem}>
-                      <CardItem icon={faHouse} title={item.name} onDeletePress={()=>deleteMutation(item.id) }/>
+                      <CardItem icon={faHouse} title={item.name} onDeletePress={()=>deleteMutation(item.id)  } onCardPress={()=> console.log("card clicked")}/>
                   </View>
                   }
                   keyExtractor={(item) => item.id.toString()}

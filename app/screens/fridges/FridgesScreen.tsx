@@ -42,9 +42,11 @@ const FETCH_FRIDGES = gql`
                 <FlatList style={styles.listContainer}
                     data={subscriptionResult.data?.getFridges}
                     renderItem={({item}) => <View  style={styles.listItem}>
-                        <CardItem icon={faHouse} title={item.name} onDeletePress={() => deleteMutation({
+                        <CardItem icon={faHouse} title={item.name}
+                                  onDeletePress={() => deleteMutation({
                             variables: {id: item.id.toString()},
-                        })} />
+                        })}
+                                  onCardPress={()=> console.log("card")}/>
                     </View>
                     }
                     keyExtractor={(item) => item.id.toString()}
